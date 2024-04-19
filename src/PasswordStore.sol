@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.18;
+pragma solidity 0.8.18; // q is this compiler version the best suited
 
 /*
  * @author not-so-secure-dev
@@ -8,11 +8,20 @@ pragma solidity 0.8.18;
  * You can update your password at any time.
  */
 contract PasswordStore {
+    /* ////////////////////////////////////////////////////////
+                            Error Functions
+      ////////////////////////////////////////////////////////*/
     error PasswordStore__NotOwner();
 
+    /* ////////////////////////////////////////////////////////
+                            State Variables
+      ////////////////////////////////////////////////////////*/
     address private s_owner;
     string private s_password;
 
+    /* ////////////////////////////////////////////////////////
+                                Events
+      ////////////////////////////////////////////////////////*/    
     event SetNetPassword();
 
     constructor() {
@@ -23,6 +32,10 @@ contract PasswordStore {
      * @notice This function allows only the owner to set a new password.
      * @param newPassword The new password to set.
      */
+    // q can some non-owner call the function and set the password?
+    // q should some non-owner call the function and set the password?
+    // @audit any user can set the password
+    // missing access control - there is no prevention to limit the function to only owner
     function setPassword(string memory newPassword) external {
         s_password = newPassword;
         emit SetNetPassword();
